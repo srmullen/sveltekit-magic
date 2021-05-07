@@ -26,6 +26,7 @@
 	import { scale } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import Protected from '$lib/Protected.svelte';
+	import AuthForm from '$lib/AuthForm.svelte';
 
 	type Todo = {
 		uid: string;
@@ -94,6 +95,8 @@
 			</div>
 		{/each}
 	</div>
+
+	<AuthForm slot="unauthorized" />
 </Protected>
 
 <style>

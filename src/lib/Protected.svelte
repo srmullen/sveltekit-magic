@@ -4,9 +4,13 @@
   $: auth = $authStore;
 </script>
 
-{#if auth && auth.state === 'loading'}
+{#if auth.loading}
   <div>Loading...</div>
-{:else if auth && auth.user}
+{:else if auth.user}
   <slot />
+{:else}
+  <slot name="unauthorized">
+    <div>Unauthorized</div>
+  </slot>
 {/if}
 

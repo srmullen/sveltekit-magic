@@ -5,7 +5,7 @@ import { goto } from '$app/navigation';
 let magic;
 
 export const store = writable({
-  state: null,
+  loading: false,
   user: null
 });
 
@@ -15,7 +15,7 @@ function createMagic() {
 
 export function init(): void {
   store.update(prev => {
-    return Object.assign({}, prev, { state: 'loading' });
+    return Object.assign({}, prev, { loading: true });
   });
   authenticate();
 }
@@ -37,7 +37,7 @@ export async function login(email: string): Promise<void> {
   if (res.ok) {
     const data = await res.json();
     store.set({
-      state: null,
+      loading: false,
       user: data.user
     });
   }
@@ -46,7 +46,7 @@ export async function login(email: string): Promise<void> {
 export async function logout(): Promise<void> {
   await fetch('/api/auth/logout');
   store.set({
-    state: null,
+    loading: false,
     user: null
   });
   goto('/auth');
@@ -57,7 +57,7 @@ async function authenticate(): Promise<void> {
     const res = await fetch('/api/auth/user');
     const { user } = await res.json();
     store.set({
-      state: null,
+      loading: false,
       user
     });
   } catch (err) {
