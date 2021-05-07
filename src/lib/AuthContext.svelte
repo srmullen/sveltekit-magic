@@ -2,9 +2,9 @@
   import { onMount } from 'svelte';
   import { init } from './auth';
 
-  onMount(() => {
-    init();
-  });
+  // onMount(() => {
+  //   init();
+  // });
 </script>
 
 <slot />

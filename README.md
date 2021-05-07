@@ -37,6 +37,17 @@ The Protected.svelte component will be separate from the AuthContext component s
 - Use the `handle` hook to parse the jwt token
 - Create the token cookie in `api/auth/_utils.ts`
 
+Server Side authentication
+--------------------------
+
+Can the user be authenticated on the server side? The `authenticate` function does not use the frontend magic-sdk (only the `login` function does), So it should be usable on the server. AuthContext is really being used as a context because the authentication status isn't being placed in a svelte context. So it's easy to use from a layout.
+
+Use `load` functions context and redirect properties for passing the user to the protected pages and deciding if need to redirect.
+
+On the main route layout we get the user that is logged in and add it to the load function context. In the Todos layout we can see if that user is in the context and redirect appropriately.
+
+On HMR the user is being removed from the store, causing it to look like the user is logged out? This is annoying for dev, but is it a problem for prod?
+
 TODO
 ----
 - Navigate to the login page when the user tries to access todos while unauthorized.

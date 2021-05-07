@@ -13,13 +13,6 @@ function createMagic() {
   return magic || new Magic(import.meta.env.VITE_MAGIC_PUBLIC_KEY as string);
 }
 
-export function init(): void {
-  store.update(prev => {
-    return Object.assign({}, prev, { loading: true });
-  });
-  authenticate();
-}
-
 export async function login(email: string): Promise<void> {
   const magic = createMagic();
 
@@ -50,26 +43,4 @@ export async function logout(): Promise<void> {
     user: null
   });
   goto('/auth');
-}
-
-async function authenticate(): Promise<void> {
-  try {
-    const res = await fetch('/api/auth/user');
-    const { user } = await res.json();
-    store.set({
-      loading: false,
-      user
-    });
-  } catch (err) {
-    console.log(err);
-  }
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     store.update(prev => Object.assign({}, prev, {
-  //       state: 'unauthorized',
-  //       user: null
-  //     }));
-  //     resolve();
-  //   }, 1000);
-  // });
 }
