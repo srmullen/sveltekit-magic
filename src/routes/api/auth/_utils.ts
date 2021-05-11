@@ -14,7 +14,7 @@ export async function createSessionCookie(data): Promise<string> {
   const session = await encrypt(data);
 
   return serialize(SESSION_NAME, session, {
-    maxAge: SESSION_LENGTH_MS,
+    maxAge: SESSION_LENGTH_MS / 1000, // maxAge is in seconds. Divide by 1000 to convert from milliseconds to seconds.
     expires: new Date(Date.now() + SESSION_LENGTH_MS),
     httpOnly: true,
     secure: process.env['NODE_ENV'] === 'production',
