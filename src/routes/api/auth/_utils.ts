@@ -1,22 +1,16 @@
 import { serialize } from 'cookie';
-// import jwt from 'jsonwebtoken';
 import { ENCRYPTION_SECRET, SESSION_LENGTH_MS, SESSION_NAME } from '$lib/config';
 import Iron from '@hapi/iron';
 
-export async function encrypt(data): Promise<string> {
+async function encrypt(data): Promise<string> {
   return data && Iron.seal(data, ENCRYPTION_SECRET, Iron.defaults);
 }
 
-export async function decrypt<T>(data: string): Promise<T> {
+async function decrypt<T>(data: string): Promise<T> {
   return data && Iron.unseal(data, ENCRYPTION_SECRET, Iron.defaults);
 }
 
 export async function createSessionCookie(data): Promise<string> {
-  // const token = jwt.sign({
-  //   ...data,
-  //   exp: Math.floor(Date.now() + SESSION_LENGTH_MS)
-  // }, ENCRYPTION_SECRET);
-
   const session = await encrypt(data);
 
   return serialize(SESSION_NAME, session, {
@@ -27,6 +21,10 @@ export async function createSessionCookie(data): Promise<string> {
     path: '/',
     sameSite: 'lax'
   });
+}
+
+export async function getSession<T>(cookie: string): Promise<T> {
+  return await decrypt(cookie);
 }
 
 export function removeSessionCookie(): string {

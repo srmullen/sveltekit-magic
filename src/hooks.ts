@@ -1,12 +1,14 @@
 import cookie from 'cookie';
-import { v4 as uuid } from '@lukeed/uuid';
 import type { Handle } from '@sveltejs/kit';
 import { SESSION_NAME } from '$lib/config';
+import { getSession } from './routes/api/auth/_utils';
 
 export const handle: Handle = async ({ request, render }) => {
 	const cookies = cookie.parse(request.headers.cookie || '');
-	request.locals.userid = cookies.userid || uuid();
-	request.locals[SESSION_NAME] = cookies[SESSION_NAME];
+	// request.locals[SESSION_NAME] = cookies[SESSION_NAME];
+
+	const user = await getSession(cookies[SESSION_NAME]);
+	request.locals.user = user;
 
 	// TODO https://github.com/sveltejs/kit/issues/1046
 	if (request.query.has('_method')) {
@@ -14,12 +16,6 @@ export const handle: Handle = async ({ request, render }) => {
 	}
 
 	const response = await render(request);
-
-	if (!cookies.userid) {
-		// if this is the first time the user has visited this app,
-		// set a cookie so that we recognise them when they return
-		response.headers['set-cookie'] = `userid=${request.locals.userid}; Path=/; HttpOnly`;
-	}
 
 	return response;
 };
