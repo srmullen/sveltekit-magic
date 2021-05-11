@@ -1,14 +1,25 @@
 import { serialize } from 'cookie';
-import jwt from 'jsonwebtoken';
-import { JWT_SECRET, SESSION_LENGTH_MS, TOKEN_NAME } from '$lib/config';
+// import jwt from 'jsonwebtoken';
+import { ENCRYPTION_SECRET, SESSION_LENGTH_MS, SESSION_NAME } from '$lib/config';
+import Iron from '@hapi/iron';
 
-export function createTokenCookie(data): string {
-  const token = jwt.sign({
-    ...data,
-    exp: Math.floor(Date.now() + SESSION_LENGTH_MS)
-  }, JWT_SECRET);
+export async function encrypt(data): Promise<string> {
+  return data && Iron.seal(data, ENCRYPTION_SECRET, Iron.defaults);
+}
 
-  return serialize(TOKEN_NAME, token, {
+export async function decrypt<T>(data: string): Promise<T> {
+  return data && Iron.unseal(data, ENCRYPTION_SECRET, Iron.defaults);
+}
+
+export async function createSessionCookie(data): Promise<string> {
+  // const token = jwt.sign({
+  //   ...data,
+  //   exp: Math.floor(Date.now() + SESSION_LENGTH_MS)
+  // }, ENCRYPTION_SECRET);
+
+  const session = await encrypt(data);
+
+  return serialize(SESSION_NAME, session, {
     maxAge: SESSION_LENGTH_MS,
     expires: new Date(Date.now() + SESSION_LENGTH_MS),
     httpOnly: true,
@@ -18,8 +29,8 @@ export function createTokenCookie(data): string {
   });
 }
 
-export function removeTokenCookie(): string {
-  return serialize(TOKEN_NAME, '', {
+export function removeSessionCookie(): string {
+  return serialize(SESSION_NAME, '', {
     maxAge: -1,
     path: '/'
   });

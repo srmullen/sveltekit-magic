@@ -1,6 +1,10 @@
 <script lang="ts" context="module">
-  export function load({ context }) {
-    if (!context.user) {
+  import { get } from 'svelte/store';
+  import { store as authStore } from '$lib/auth';
+
+  export function load() {
+    const { user } = get(authStore);
+    if (!user) {
       return {
         status: 302,
         redirect: '/auth'

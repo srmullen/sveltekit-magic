@@ -4,6 +4,7 @@
 	export async function load({ fetch }) {
 		const res = await fetch('/api/auth/user');
 		const { user } = await res.json();
+		console.log('load', user);
 		authStore.set({ 
 			loading: false,
 			user 

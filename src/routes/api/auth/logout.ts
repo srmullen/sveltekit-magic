@@ -1,12 +1,13 @@
 import type { Request, Response } from '@sveltejs/kit';
-import jwt from 'jsonwebtoken';
+// import jwt from 'jsonwebtoken';
+// import { ENCRYPTION_SECRET } from '$lib/config';
 import { magic } from './_magic';
-import { removeTokenCookie } from './_utils';
-import { JWT_SECRET } from '$lib/config';
+import { removeSessionCookie, decrypt } from './_utils';
+import { SESSION_NAME } from '$lib/config';
 
 export async function get(req: Request): Promise<Response> {
   try {
-    if (!req.locals.token) {
+    if (!req.locals[SESSION_NAME]) {
       return {
         status: 401,
         body: {
@@ -17,9 +18,10 @@ export async function get(req: Request): Promise<Response> {
       };
     }
 
-    const user = jwt.verify(req.locals.token, JWT_SECRET);
+    // const user = jwt.verify(req.locals[SESSION_NAME], ENCRYPTION_SECRET);
+    const user = await decrypt<{ issuer: string }>(req.locals[SESSION_NAME]);
 
-    const cookie = removeTokenCookie();
+    const cookie = removeSessionCookie();
 
     console.log({ user, cookie });
 

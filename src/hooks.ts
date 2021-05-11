@@ -1,12 +1,12 @@
 import cookie from 'cookie';
 import { v4 as uuid } from '@lukeed/uuid';
 import type { Handle } from '@sveltejs/kit';
-import { TOKEN_NAME } from '$lib/config';
+import { SESSION_NAME } from '$lib/config';
 
 export const handle: Handle = async ({ request, render }) => {
 	const cookies = cookie.parse(request.headers.cookie || '');
 	request.locals.userid = cookies.userid || uuid();
-	request.locals.token = cookies[TOKEN_NAME];
+	request.locals[SESSION_NAME] = cookies[SESSION_NAME];
 
 	// TODO https://github.com/sveltejs/kit/issues/1046
 	if (request.query.has('_method')) {

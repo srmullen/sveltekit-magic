@@ -50,4 +50,4 @@ On HMR the user is being removed from the store, causing it to look like the use
 
 TODO
 ----
-- Navigate to the login page when the user tries to access todos while unauthorized.
+- Make sure that the token expiration times are correct. Uses seconds or milliseconds?
