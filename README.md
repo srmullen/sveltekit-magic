@@ -21,38 +21,3 @@ When the user logs out, by clicking on the LOGOUT link, a request to the `routes
 2. Rename `.env.example` to `.env`
 3. Populate the variables in the `.env` file.
 4. Start the development server `npm run dev`.
-
---------------------
-
-One of the great things about this is that there is no need to separately verify their email address.
-
-Magic handles authentication, but how do you do authorization? You need to have a way to recognize the user. So store the user in a token.
-
-Storing JWTs in local/session storage can be vulnerable to XSS attacks. Javascript can read the storage to get the tokens. With the correct headers (HttpOnly) the token will be inaccessible if it is a cookie.
-
-Cookies are vulnerable to CSRF attacks. Malicious site causes a user's browser to perform an unwanted action on a trusted site where the user is already authenticated.
-
-## Steps
-
-- Install the dependencies `npm install @magic-sdk/admin magic-sdk jsonwebtoken`
-- Create the api routes `routes/api/login.ts` `routes/api/logout.ts` `routes/api/user.ts`
-- Get Magic api keys and put them in the .env file. Make sure .env is in .gitignore.
-- Create frontend login page and function.
-- Create a Protected.svelte component and wrap around the todos page. The Protected component is a wrapper around section of the page that users need to be logged in to access. It will read from the user store and see if the user is loading, authenticated, or unauthenticated. If the user is not authorized, nothing will display.
-
-Magic needs to run in the browser, so need to initialize it in onMount function.
-
-- Write the login function.
-
-- Create the token cookie in `api/auth/_utils.ts`
-
-Server Side authentication
---------------------------
-
-Can the user be authenticated on the server side? The `authenticate` function does not use the frontend magic-sdk (only the `login` function does), So it should be usable on the server. AuthContext is really being used as a context because the authentication status isn't being placed in a svelte context. So it's easy to use from a layout.
-
-Use `load` functions context and redirect properties for passing the user to the protected pages and deciding if need to redirect.
-
-On the main route layout we get the user that is logged in and add it to the load function context. In the Todos layout we can see if that user is in the context and redirect appropriately.
-
-On HMR the user is being removed from the store, causing it to look like the user is logged out? This is annoying for dev, but is it a problem for prod?
