@@ -5,7 +5,6 @@ import { getSession } from './routes/api/auth/_utils';
 
 export const handle: Handle = async ({ request, render }) => {
 	const cookies = cookie.parse(request.headers.cookie || '');
-	// request.locals[SESSION_NAME] = cookies[SESSION_NAME];
 
 	const user = await getSession(cookies[SESSION_NAME]);
 	request.locals.user = user;

@@ -1,7 +1,6 @@
 import type { Request, Response } from '@sveltejs/kit';
 import { magic } from './_magic';
 import { removeSessionCookie } from './_utils';
-// import { SESSION_NAME } from '$lib/config';
 
 export async function get(req: Request): Promise<Response> {
   try {
