@@ -3,6 +3,8 @@ sveltekit-magic
 
 This is a demo application for using [Magic](https://magic.link/) auth with SvelteKit. Magic provides secure, passwordless authentication for your application.
 
+**See it in action here: https://sveltekit-magic.netlify.app/**
+
 ## How it works
 
 When a user wants to log into the app they will click on the LOGIN link in the header. This will bring them to a page that displays the login form. There is separate signup and login pages. They are all the same. There is also no password field to fill out on this page. That greatly reduces friction when signing up/logging into the application because the user doesn't need to create or remember their passwords. When the user submits their email a link will be sent to them. Clicking on the link will log them into the application and the signup page (assuming the user didn't close it) will naviate to the todos page, which is the protected page of the application. 
