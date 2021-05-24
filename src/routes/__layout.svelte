@@ -4,16 +4,16 @@
 	export async function load({ fetch }) {
 		const res = await fetch('/api/auth/user');
 		const { user } = await res.json();
-		authStore.set({ 
+		authStore.set({
 			loading: false,
-			user 
+			user
 		});
 		return {
 			status: 200,
 			context: {
 				user
 			}
-		}
+		};
 	}
 </script>
 

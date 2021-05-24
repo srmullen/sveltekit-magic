@@ -1,16 +1,15 @@
 <script lang="ts">
-  import { store as authStore } from './auth';
+	import { store as authStore } from './auth';
 
-  $: auth = $authStore;
+	$: auth = $authStore;
 </script>
 
 {#if auth.loading}
-  <div>Loading...</div>
+	<div>Loading...</div>
 {:else if auth.user}
-  <slot />
+	<slot />
 {:else}
-  <slot name="unauthorized">
-    <div>Unauthorized</div>
-  </slot>
+	<slot name="unauthorized">
+		<div>Unauthorized</div>
+	</slot>
 {/if}
-

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import AuthForm from '$lib/AuthForm.svelte';
+	import AuthForm from '$lib/AuthForm.svelte';
 </script>
 
 <AuthForm />

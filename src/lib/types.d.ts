@@ -7,5 +7,5 @@ export interface Locals {
 		issuer: string;
 		publicAddress: string;
 		email: string;
-	}
+	};
 }

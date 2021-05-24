@@ -19,19 +19,21 @@
 
 	<nav>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z"/>
+			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
 			<li class:active={$page.path === '/'}><a sveltekit:prefetch href="/">Home</a></li>
 			<li class:active={$page.path === '/todos'}><a sveltekit:prefetch href="/todos">Todos</a></li>
 			{#if auth && auth.user}
-				<li class:active={$page.path === '/auth'}><a href="#" on:click|preventDefault={handleLogout}>Logout</a></li>
+				<li class:active={$page.path === '/auth'}>
+					<a href="javascript:void(0)" on:click|preventDefault={handleLogout}>Logout</a>
+				</li>
 			{:else}
 				<li class:active={$page.path === '/auth'}><a href="/auth">Login</a></li>
 			{/if}
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z"/>
+			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
 		</svg>
 	</nav>
 
@@ -68,7 +70,7 @@
 	nav {
 		display: flex;
 		justify-content: center;
-		--background: rgba(255,255,255,0.7);
+		--background: rgba(255, 255, 255, 0.7);
 	}
 
 	svg {
