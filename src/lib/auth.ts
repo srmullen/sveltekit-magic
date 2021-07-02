@@ -10,7 +10,8 @@ export const store = writable({
 });
 
 function createMagic() {
-	return magic || new Magic(import.meta.env.VITE_MAGIC_PUBLIC_KEY as string);
+  magic = magic || new Magic(import.meta.env.VITE_MAGIC_PUBLIC_KEY as string);
+	return magic;
 }
 
 export async function login(email: string): Promise<void> {
