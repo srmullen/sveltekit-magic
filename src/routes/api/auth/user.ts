@@ -20,6 +20,7 @@ export async function get(req: Request): Promise<Response> {
 		return {
 			status: 200,
 			headers: {
+        'cache-control': 'no-store',
 				'set-cookie': cookie
 			},
 			body: {
