@@ -22,14 +22,16 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li class:active={$page.path === '/'}><a sveltekit:prefetch href="/">Home</a></li>
-			<li class:active={$page.path === '/todos'}><a sveltekit:prefetch href="/todos">Todos</a></li>
+			<li class:active={$page.url.pathname === '/'}><a sveltekit:prefetch href="/">Home</a></li>
+			<li class:active={$page.url.pathname === '/todos'}>
+				<a sveltekit:prefetch href="/todos">Todos</a>
+			</li>
 			{#if auth && auth.user}
-				<li class:active={$page.path === '/auth'}>
+				<li class:active={$page.url.pathname === '/auth'}>
 					<a href="javascript:void(0)" on:click|preventDefault={handleLogout}>Logout</a>
 				</li>
 			{:else}
-				<li class:active={$page.path === '/auth'}><a href="/auth">Login</a></li>
+				<li class:active={$page.url.pathname === '/auth'}><a href="/auth">Login</a></li>
 			{/if}
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
