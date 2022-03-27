@@ -20,6 +20,17 @@
 <script lang="ts">
 	import Header from '$lib/Header/index.svelte';
 	import '../app.css';
+  import { onMount } from 'svelte';
+
+  onMount(async () => {
+    // XXX: Temp workaround due to:
+    // https://github.com/sveltejs/kit/issues/1198
+    //
+    // Also see:
+    // https://github.com/sveltejs/kit/issues/696
+    // https://github.com/sveltejs/kit/issues/672
+    await fetch('/api/auth/user');
+  })
 </script>
 
 <Header />
