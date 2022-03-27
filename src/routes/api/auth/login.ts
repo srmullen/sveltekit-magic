@@ -1,10 +1,10 @@
-import type { Request, Response } from '@sveltejs/kit';
+import type { EndpointOutput, RequestEvent } from '@sveltejs/kit';
 import { magic } from './_magic';
 import { createSessionCookie } from './_utils';
 
-export async function post(req: Request): Promise<Response> {
+export async function post(evt: RequestEvent): Promise<EndpointOutput> {
 	try {
-		const didToken = magic.utils.parseAuthorizationHeader(req.headers['authorization']);
+		const didToken = magic.utils.parseAuthorizationHeader(evt.request.headers.get('authorization'));
 		await magic.token.validate(didToken);
 		const metadata = await magic.users.getMetadataByToken(didToken);
 		const cookie = await createSessionCookie(metadata);
@@ -14,6 +14,7 @@ export async function post(req: Request): Promise<Response> {
 			headers: {
 				'set-cookie': cookie
 			},
+			//@ts-ignore
 			body: {
 				user: metadata
 			}

@@ -1,9 +1,9 @@
-import type { Request, Response } from '@sveltejs/kit';
+import type { EndpointOutput, RequestEvent } from '@sveltejs/kit';
 import { createSessionCookie } from './_utils';
 
-export async function get(req: Request): Promise<Response> {
+export async function get(evt: RequestEvent): Promise<EndpointOutput> {
 	try {
-		if (!req.locals.user) {
+		if (!evt.locals['user']) {
 			return {
 				status: 200,
 				body: {
@@ -12,7 +12,7 @@ export async function get(req: Request): Promise<Response> {
 			};
 		}
 
-		const user = req.locals.user;
+		const user = evt.locals['user'];
 
 		// Refresh session
 		const cookie = await createSessionCookie(user);
@@ -20,7 +20,7 @@ export async function get(req: Request): Promise<Response> {
 		return {
 			status: 200,
 			headers: {
-        'cache-control': 'no-store',
+				'cache-control': 'no-store',
 				'set-cookie': cookie
 			},
 			body: {

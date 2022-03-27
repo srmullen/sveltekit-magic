@@ -1,20 +1,25 @@
 <script lang="ts" context="module">
+	//This only runs when the module first evaluates and before any rendering happens.
 	import { store as authStore } from '$lib/auth';
+	import type { Load } from '@sveltejs/kit';
 
-	export async function load({ fetch }) {
+	export const load: Load = async ({ fetch }) => {
 		const res = await fetch('/api/auth/user');
-		const { user } = await res.json();
-		authStore.set({ 
+		const json = await res.json();
+		const { user } = json;
+
+		authStore.set({
 			loading: false,
-			user 
+			user
 		});
+
 		return {
-			status: 200,
-			context: {
-				user
-			}
-		}
-	}
+			status: 200
+			// stuff: {
+			// 	user
+			// }
+		};
+	};
 </script>
 
 <script lang="ts">
